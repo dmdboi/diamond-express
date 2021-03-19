@@ -30,6 +30,19 @@ exports.login = async (body) => {
 };
 
 /**
+ * @description Verifies if a JWT is valid
+ * @param {Object} User user Token object with a user uuid and role.
+ * @return {Object} The user's document from the database minus password
+ */
+exports.verify = async (user) => {
+  const userDocument = await userService.find({ uuid: user.uuid });
+
+  userDocument["password"] = null;
+
+  return userDocument;
+};
+
+/**
  * @description Creates a user in the database  via userService
  * @param {Object} User An object with an email, username and password
  * @return {Object} The user's document from the database minus password
