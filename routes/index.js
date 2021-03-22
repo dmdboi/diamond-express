@@ -9,4 +9,6 @@ const wrapper = (fn) => (req, res, next) =>
 /* GET home page. */
 router.get('/', wrapper(indexController.home));
 
+router.post('/upload', wrapper(indexController.uploadFile))
+
 module.exports = router;

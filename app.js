@@ -4,6 +4,8 @@ const logger = require("morgan");
 const cors = require("cors");
 const config = require("./config/config")
 
+const fileupload = require('express-fileupload');
+
 require("./services/database")
 
 const app = express();
@@ -18,6 +20,10 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(fileupload({
+    createParentPath: true
+}))
 
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
