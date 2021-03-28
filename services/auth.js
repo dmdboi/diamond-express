@@ -8,26 +8,18 @@ const config = require("../config/config");
  * @param {Object} User An object with a User's credentials.
  * @return {String} A JSON Web Token
  */
-exports.login = async (body) => {
-  let email = body.email.toLowerCase();
-  let password = body.password;
-
-  const user = await userService.find({ email: email });
-  let correctPassword = await user.validPassword(password);
-
-  if (user && correctPassword) {
-    const token = jwt.sign(
-      { uuid: user.uuid, role: user.role },
-      config.JWT_SECRET,
-      {
+exports.login = async (user) => {
+  const token = jwt.sign(
+    { 
+      username: user.username, 
+      uuid: user.uuid 
+    },
+    config.JWT_SECRET,
+    {
         expiresIn: "3h",
-      }
-    );
+    });
     return token;
-  } else {
-    throw new Error("Incorrect Password");
-  }
-};
+}
 
 /**
  * @description Verifies if a JWT is valid
